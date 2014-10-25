@@ -1,4 +1,4 @@
 workfromapp
 ===========
 
-Workfrom Rewards
+Workfrom (workfrom.co) Rewards

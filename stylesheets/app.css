@@ -1,3 +1,35 @@
-#header, #footer { background-color: #F22613; color: #fff; padding: 2px 10px; }
-#header a, #footer a{ color: #fff; }
+body.ui-mobile-viewport, body.ui-overlay-a {
+	text-align: center;
+}
 
+#place, #share, #claim, #thanks, #rewards, #wrapperAllTime { display: none; }
+#init, #place, #share { color: #333; }
+#claim, #thanks, #rewards {	background-color: #F22613;
+	color: #fff;
+}
+
+#header, #footer { padding: 2px 10px; 	
+	background-color: #F22613;
+	color: #fff;
+	width: 100%;
+}
+#header a, #footer a{ color: #fff; }
+#footer { position: fixed; bottom: 0; }
+#header img { height:40px;}
+
+#placePhoto img { width: 100%; }
+
+#claim h1, #thanks h1, #rewards h1, #claim h2, #thanks h2, #rewards h2 { color: #fff; }
+
+.circle {
+    width: 200px;
+    height: 200px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px; 
+    background-color: #fff;
+}
+.circle img { width: 200px; }
+
+/* don't know about these */
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper { text-shadow: none; }

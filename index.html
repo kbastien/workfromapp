@@ -15,7 +15,7 @@
 		/*
 		0. check to see if desktop or mobile.
 		0a. if mobile, continue
-		0b. if desktop, go to workfrom.co/rewards
+		0b. if desktop, go to workfrom.dev/rewards
 		*/
 		var uagent = navigator.userAgent.toLowerCase();
 		var is_mobile = false;
@@ -29,7 +29,7 @@
 	<script>
 		/*
 		var CURRENT_USER = {"data":null,"ID":0,"caps":[],"cap_key":null,"roles":[],"allcaps":[],"filter":null};
-		{"ID":"3","user_login":"jmlnarik","user_pass":"$P$B.wc9MZtNaiL5b5p\/NfgWQw9pO7qRi1","user_nicename":"jmlnarik","user_email":"jewel@workfrom.co","user_url":"http:\/\/jewel@mlnarik.com","user_registered":"2014-02-24 19:39:11","user_activation_key":"4e4DmfGqhkvMdcRD8aC36EN53B6fAu","user_status":"0","display_name":"Jewel Mlnarik"},"ID":3,"caps":{"administrator":true},"cap_key":"wp_capabilities","roles":["administrator"],"allcaps":{"switch_themes":true,"edit_themes":true,"activate_plugins":true,"edit_plugins":true,"edit_users":true,"edit_files":true,"manage_options":true,"moderate_comments":true,"manage_categories":true,"manage_links":true,"upload_files":true,"import":true,"unfiltered_html":true,"edit_posts":true,"edit_others_posts":true,"edit_published_posts":true,"publish_posts":true,"edit_pages":true,"read":true,"level_10":true,"level_9":true,"level_8":true,"level_7":true,"level_6":true,"level_5":true,"level_4":true,"level_3":true,"level_2":true,"level_1":true,"level_0":true,"edit_others_pages":true,"edit_published_pages":true,"publish_pages":true,"delete_pages":true,"delete_others_pages":true,"delete_published_pages":true,"delete_posts":true,"delete_others_posts":true,"delete_published_posts":true,"delete_private_posts":true,"edit_private_posts":true,"read_private_posts":true,"delete_private_pages":true,"edit_private_pages":true,"read_private_pages":true,"delete_users":true,"create_users":true,"unfiltered_upload":true,"edit_dashboard":true,"update_plugins":true,"delete_plugins":true,"install_plugins":true,"update_themes":true,"install_themes":true,"update_core":true,"list_users":true,"remove_users":true,"add_users":true,"promote_users":true,"edit_theme_options":true,"delete_themes":true,"export":true,"copy_posts":true,"wpseo_bulk_edit":true,"administrator":true},"filter":null};
+		{"ID":"3","user_login":"jmlnarik","user_nicename":"jmlnarik","user_email":"jewel@workfrom.dev","user_url":"http:\/\/jewel@mlnarik.com"...
 
 		var INITIALIZED = true;
 		1. check to see if someone is logged in. 
@@ -37,17 +37,27 @@
 		1b. if yes - take them to onlocation.html
 		*/
 		console.log(CURRENT_USER);
-		console.log(INITIALIZED);
+		console.log("total transactions: "+TOTAL_TRANSACTIONS);
+		console.log(AVATAR);
 		if( typeof(INITIALIZED) == 'undefined' || CURRENT_USER.ID == 0 ){
 			console.log('redirect');
-			// window.location = "//rewards.workfrom.co";
+			// window.location = "//rewards.workfrom.dev";
 		}
+		// calculate some numbers and pre-fill them in
+		if( TOTAL_TRANSACTIONS < wf_threshold ){
+			var next_reward_in = wf_threshold - TOTAL_TRANSACTIONS;
+		}else{
+			var next_reward_in = TOTAL_TRANSACTIONS % wf_threshold;
+		}
+		if( next_reward_in == 0 ) next_reward_in = wf_threshold;
+		var total_this_round = wf_threshold - next_reward_in;
+		console.log('next_reward_in: '+next_reward_in);
 	</script>
 
 	<!-- Basic Page Needs
   ================================================== -->
 	<meta charset="utf-8">
-	<title>Workfrom Rewards</title>
+	<title>Workfrom Rewards 2</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 
@@ -57,6 +67,7 @@
 
 	<!-- CSS
   ================================================== -->
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
 	<link rel="stylesheet" href="stylesheets/base.css">
 	<link rel="stylesheet" href="stylesheets/skeleton.css">
 	<link rel="stylesheet" href="stylesheets/layout.css">
@@ -74,31 +85,22 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js"></script>
 
 	<!-- Kiip
 	================================================== -->
 	<script type="text/javascript" src="/apis/kiip.js"></script>
 
 	<script>
-		// What to do when we track a wf transaction
+
+		// TRACK SHOUT OUTS 
+		// not currently active
 		function recordWfShoutOut(locationID){
 			// Some time goes by, user clicks on a special button:
 			kiip.postMoment('wf_workfrom_shoutout');
 
-			// ajax POST to workfrom.co/api/rewards
+			// ajax POST to workfrom.dev/api/rewards
 			return 5;
-		}
-
-		// Location owner enters the code
-		function recordWfTransaction(locationID,code){
-			// ajax GET to workfrom.co/api/rewards - locationID + code
-			var valid = true;
-			var count = 6;
-			// if true:
-			kiip.postMoment('wf_location_purchase');
-			// if count is greater than our threshold:
-			if( count > wf_threshold ) kiip.postMoment('wf_5buy');
-			return true;
 		}
 
 		// If unit exist, the user has won a reward, a unit will be
@@ -122,8 +124,10 @@
 			setEmail allows you to pass an email that can be used to auto populate any rewards a user has won. You only need to call this once, and we will continue to pass it along to every reward the user has won.
 		*/
 		kiip.setEmail(CURRENT_USER.user_email);
+		var currentVerificationCode = 0;
+		var currentPlaceID = 0;
 
-		function loadState(state){
+		function loadState(state,place_id){
 			// make this right
 			$("#init").hide();
 			$("#place").hide();
@@ -131,19 +135,71 @@
 			$("#claim").hide();
 			$("#thanks").hide();
 			$("#profile").hide();
-			console.log(state);
+			$("#reward").hide();
+
+			switch(state){
+				case "init":
+					currentPlaceID = 0;
+					console.log('state switch: init');
+					$("#title").html("Find Location");
+					$("#avatar").replaceWith('<span id="avatar"><a href="#"><img src="assets/search-icon.png" alt="?" /></a></span>');
+					break;
+				case "place":
+					currentPlaceID = place_id;
+					console.log('state switch: place');
+					console.log('place_id: '+place_id);
+
+					var url = '//workfrom.dev/assets/api/places.php?post_id='+place_id;
+					console.log(url);
+					$.ajax( url )
+					.done(function(data) {
+						console.log( "success" );
+						console.log(data);
+					})
+					.fail(function(data) {
+						// not sure why it's failing as we're getting a response, so this is quick hack					
+						// console.log( "error" );
+						myContent = $.parseJSON(data.responseText)
+						currentVerificationCode = myContent.verificationCode = '1234'; // for demo only
+						console.log(myContent);
+						$("#title").html(myContent.title);
+						$("#proTip").replaceWith('<div id="proTip">'+myContent.protip+'</div>');
+						$("#password").replaceWith('<div id="password">'+myContent.password+'</div>');
+						$("#placePhoto").replaceWith('<div id="placePhoto"><img src="'+myContent.image+'"></div>');
+						var shareTweet = 'I\'ve landed at '+myContent.title;
+						shareTweet += ' to get some work done. Join me if you dare. wkfr.co/'+myContent.slug;
+						shareTweet += 'cc @workfromco';
+						$("#shareTweet").replaceWith('<div id="shareTweet">'+shareTweet+'</div>');
+						// check verification
+		
+					});
+
+					// fetch this location's information ... 
+					// workfrom.dev/assets/api/places.php?id='+place_id
+					$("#avatar").replaceWith('<span id="avatar"><a href="#"><img src="'+AVATAR+'" alt="?" /></a></span>');
+					break;
+				case "share":
+					// social tweet screen
+					$("#title").html("Share");
+					break;
+				case "claim":
+					// verification screen
+					break;
+				case "thanks":
+					// thanks screen - activity already posted
+
+					// if enough counts, then it's a reward screen - at which point reward can be claimed
+					break;
+				case "profile":
+					// profile
+					break;
+			}
 			$("#"+state).show();
 		}
 
 		// Load the page & views
 		$(document).ready(function() {
-		    console.log("<script src=\"//workfrom.dev/assets/api/rewards.php?uid="+CURRENT_USER.ID+"\">");
-		    $('head').append("<script src=\"//workfrom.dev/assets/api/rewards.php?uid="+CURRENT_USER.ID+"\">");
-			/*
-				var nextRewardIn = 3;
-				var badgeCount = 55;
-				var lifetimeCount = 100;
-			*/
+		    // $('head').append("<script src=\"//workfrom.dev/assets/api/rewards.php?uid="+CURRENT_USER.ID+"\">");
 
 			var state = 'init';
 			/*
@@ -152,85 +208,202 @@
 			var lat = 0;
 			var lng = 0;
 
+			// update display of counts in various views
+			function updateCountDisplays()
+			{
+		  		$("#counterLeft").html(next_reward_in);
+				$("#totalOf").html(total_this_round);
+				$("#totalAllTime").html(TOTAL_TRANSACTIONS);
+				$("#counterTotal").html(TOTAL_TRANSACTIONS);
+				if( TOTAL_TRANSACTIONS > wf_threshold ) $("#wrapperAllTime").show();
+				console.log('updateCountDisplays - next_reward_in: '+next_reward_in);
+				switch(next_reward_in){
+					case 1:
+					case 2:
+						$("#encouragement").replaceWith('<p id="encouragement">Almost there! Order another drink.</p>');
+						break;
+					case 3:
+					case 4:
+						$("#encouragement").replaceWith('<p id="encouragement">You\'re really good at this.</p>');
+						break;
+					case 5:
+					case 6:
+						$("#encouragement").replaceWith('<p id="encouragement">Great start! Keep it up.</p>');
+						break;
+				}
+
+			}
+			updateCountDisplays();
+
 			function onPositionUpdate(position)
             {
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
-                alert("Current position: " + lat + " " + lng);
+
+                // load some nearby places (hopefully)
+				var url = '//workfrom.dev/assets/api/places.php?lat='+lat+'&lon='+lng;
+				// console.log(url);
+				$.ajax( url )
+				.done(function(data) {
+					// console.log( "success" );
+					// console.log(data);
+					var listings = $.parseJSON(data);
+					$.each(listings, function (index,value){
+						var string = "<li><a href=\"javascript:loadState('place',"+value.ID+")\">"+value.post_title+"</a></li>";
+						// console.log(string);
+						$("ul#placesList").append(string);
+						// $("#placesList").append("<p><a href=\"#"+value.ID+"\#>"+value.post_title+"</p>");
+					});
+
+				})
+				.fail(function() {
+					// console.log( "error" );
+				})
+				.always(function() {
+				// console.log( "complete" );
+				});
             }
             if(navigator.geolocation)
                 navigator.geolocation.getCurrentPosition(onPositionUpdate);
-            else
-                alert("navigator.geolocation is not available");
-
-
-			$.ajax({
-				url: "//workfrom.dev/assets/api/places.php?lat="+lat+"&lon="+lng,
-			})
-			.done(function( data ) {
-				if ( console && console.log ) {
-					console.log( "Data:", data );
-				}
-			});
+            else{
+            	// give a nice error or spinning message, etc.
+            }
 
 			loadState(state);
 
+			// BINDING events
+			$(function(){
+				// swipe left & swipe right navigation
+				$( "#place" ).on( "swipeleft", swipeleftPlace );
+				function swipeleftPlace(event){
+					loadState('init');
+				}
+				$( "#share" ).on( "swipeleft", swipeleftShare );
+				function swipeleftShare(event){
+					loadState('place');
+				}
+				$( "#share" ).on( "swiperight", swiperightShare );
+				function swiperightShare(event){
+					loadState('claim');
+				}
+
+				// VERIFY THE CODE entered in by the cashier
+				$( "#verifyForm" ).submit(function( event ) {
+				  // Stop form from submitting normally
+				  event.preventDefault();
+
+				  // Check to make sure code is correct
+				  if( $("#verifyBox").val() != currentVerificationCode )
+				  {
+				  	alert( 'oops. hint: '+currentVerificationCode+' for demo.' );
+
+				  }
+				  else{
+					  // Get some values from elements on the page:
+					  var $form = $( this ),
+					    post_id = currentPlaceID,
+					    user_id = CURRENT_USER.ID,
+					    url = '//workfrom.dev/assets/api/rewards.php';
+					 
+					  // Send the data using post
+					  var posting = $.post( url, { p: post_id, u: user_id } );
+
+						console.log("posting");
+						console.log(posting);
+					 
+					  // Put the results in a div
+					  posting.done(function( data ) {
+						console.log("done posting");
+					  	console.log(data);
+					  	// record the location purchase activity
+						kiip.postMoment('wf_location_purchase');
+						next_reward_in--;
+
+					  	if( next_reward_in > 0 ){
+							total_this_round++;
+							TOTAL_TRANSACTIONS++;
+					  		updateCountDisplays();
+						  	loadState('thanks');
+						}
+						else{
+							// record this as a REWARDABLE moment!
+							kiip.postMoment('wf_5buy');
+						  	loadState('reward');						  	
+						}
+					  });
+				  }
+				});
+
+				// 
+				// $( "#redeemBtn" ).onClick(function( event ) {
+				// 	// 
+				//   // Stop form from submitting normally
+				//   event.preventDefault();
+			});
 
 		});
 	</script>
 </head>
 <body>
-	<div id="header">header</div>
-
-	<div id="init" class="container">
-		<div class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">Reward Yourself</h1>
-			<h5>for working from the places you love</h5>
-			<hr />
-			a list here...while we look for your location
-			<a href="javascript:loadState('place')" class="">select a place</a>
-		</div>
+	<div id="header">
+		<img src="//workfrom.co/downloads/Workfrom_icon_transparent.png" alt="w" />
+		<span id="title">Find Location</span>
+		<span id="avatar"><a href="#"><img src="assets/search-icon.png" alt="?" /></a></span>
 	</div>
 
-	<div id="place" class="container">
-		<div class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">PLACE</h1>
-			details here with link to "work from here"
-			or go back to list...
-			<a href="javascript:loadState('share')" class="">workfrom here</a>
-			<br>
-			<a href="javascript:loadState('init')" class="">list</a>			
-		</div>
+	<div id="init">
+			a spinner here while we look up your location
+			<ul id="placesList">
+				<li>test</li>
+			</ul>
 	</div>
 
-	<div id="share" class="container">
-		<div class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">SHARE</h1>
-
-			<a href="javascript:loadState('claim')" class="">claim</a>
-		</div>
+	<div id="place">
+			<div id="placePhoto"></div>
+			<div id="proTip"></div>
+			<div id="password"></div>
+			<input type="button" onClick="loadState('share')" class="button" value="Workfrom here" />
 	</div>
 
-	<div id="claim" class="container">
-		<div class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">CLAIM</h1>
+	<div id="share">
+			<div id="shareTweet"></div>
 
-			<a href="javascript:loadState('thanks')" class="">verify</a>
-		</div>
+			<a href="javascript:loadState('claim')" class="">SHARE</a>
 	</div>
 
-	<div id="thanks" class="container">
-		<div class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">THANKS</h1>
-			reward screen ... and/or progress
-		</div>
+	<div id="claim">
+		<form id="verifyForm">
+			<h1 class="remove-bottom">GET THE CODE</h1>
+			<p>Show the cashier your phone to earn points during your next purchase.</p>
+			<input type="tel" size="4" id="verifyBox" placeholder="****" />
+			<input type="submit" class="button" value="Verify" id="verifyBtn"/>
+		</form>		
 	</div>
 
-	<div id="profile" class="container">
-		<div class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">PROFILE</h1>
-			current progress
-		</div>
+	<div id="thanks">
+			<h1 class="remove-bottom">Today is a good day!</h1>
+			<h2>You can't be stopped!</h2>
+			<div class="circle"><img src="assets/fistbump-img.png"></div>
+			<p>So close! Only <span id="counterLeft">3</span> more left and you get a reward!</p>
+	</div>
+
+	<div id="reward">
+			<h1 class="remove-bottom">You've earned a reward!</h1>
+			<h2>You've made <span id="counterTotal"></span> purchases at Workfrom locations.</h2>
+			<div class="circle"><img src="assets/fistbump-img.png"></div>
+			<input id="redeemBtn" type="button" class="button">Redeem Reward</a>
+	</div>
+
+	<div id="profile">
+			<h1>Reward Meter</h1>
+			<div class="meter">
+				<span id="totalOf"></span>
+				of
+				<span id="threshold">6</span>
+			</div>
+			<p id="encouragement">Almost there! Order another drink.</p>
+
+			<div id="wrapperAllTime">All Time: <span id="totalAllTime"></span></div>
 	</div>
 
 	<div id="footer">

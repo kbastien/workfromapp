@@ -138,6 +138,9 @@
 
 			switch(state){
 				case "init":
+					$("#spinner").replaceWith('<div id="spinner" class="loading-spin"><img src="../assets/rotating-logo-icon.gif" alt="w" /></div>');
+					$("#placesList").replaceWith('<ul id="placesList"></ul>');
+
 					currentPlaceID = 0;
 					console.log('state switch: init');
 					$("#title").html("Find Location");
@@ -248,6 +251,7 @@
 					// console.log( "success" );
 					// console.log(data);
 					var listings = $.parseJSON(data);
+					$("#spinner").replaceWith('<div id="spinner"></div>');
 					$.each(listings, function (index,value){
 						var string = "<li><a href=\"javascript:loadState('place',"+value.ID+")\">"+value.post_title+"</a></li>";
 						// console.log(string);
@@ -360,11 +364,8 @@
 	</div>
 
 	<div id="init">
-			<div class="loading-spin">
-				<img src="../assets/rotating-logo-icon.gif" alt="w" />
-			</div>
-			<ul id="placesList">
-			</ul>
+			<div id="spinner" class="loading-spin"><img src="../assets/rotating-logo-icon.gif" alt="w" /></div>
+			<ul id="placesList"></ul>
 	</div>
 
 	<div id="place">

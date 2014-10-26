@@ -1,39 +1,18 @@
-/*Styling for rewards splash page*/
-.rewardsmain {
-  background-image: url('rewardscards1.jpg');
+body {
+	font-family: "Roboto", sans-serif;
+}
+.main {
+	margin-top: 7rem;
 }
 
-.rewardslogo {
-	margin-top: 2em;
-	margin-bottom: -1em;
+.iphone{
+	width: 50rem;
 }
 
-.rewardstitle {
-	font-size: 350%;
-	margin-left: .8em;
-	margin-top: 1.5em;
-	font-weight: bold;
-	font-family: Tahoma, Geneva, sans-serif;
+.container {
+	margin-right: 0 !important;
 }
 
-@media(max-width: 760px){
-	.rewardstitle {
-		margin-left: 0em;
-		margin-top: .5em;
-	}
-}
-
-.rewardscopy {
-	margin-left: 1.5em;
-	font-family: Tahoma, Geneva, sans-serif;
-
-}
-
-@media(max-width: 760px){
-	.rewardscopy {
-		margin-left: 0em;
-	}
-}
 
 .rewardsemail {
 	box-shadow: none;
@@ -41,12 +20,6 @@
 	border-radius: 3px;
 	height: 30px;
 	width: 200px;
-}
-
-@media(max-width: 760px){
-	.rewardscta {
-		margin-top: 1em;
-	}
 }
 
 .rewardssubmit {
@@ -69,25 +42,17 @@
 	background-color: black;
 }
 
-.rewardsphoto {
-	margin-bottom: 1em;
+input#mce-EMAIL {
+	padding-left: 10px;
 }
 
-.rewardsinfocollection {
-	border: 
+#mc_embed_signup form{
+	padding: 0 !important;
 }
 
 /*Thank you page*/
 .thankyoutitle {
 	margin-top: 2em;
-}
-
-.thankyoucta {
-
-}
-
-.thankyoucopy {
-
 }
 
 .share-button {

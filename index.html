@@ -146,6 +146,33 @@
 			*/
 
 			var state = 'init';
+			/*
+				find places near you
+			*/
+			var lat = 0;
+			var lng = 0;
+
+			function onPositionUpdate(position)
+            {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                alert("Current position: " + lat + " " + lng);
+            }
+            if(navigator.geolocation)
+                navigator.geolocation.getCurrentPosition(onPositionUpdate);
+            else
+                alert("navigator.geolocation is not available");
+
+
+			$.ajax({
+				url: "//workfrom.dev/assets/api/places.php?lat="+lat+"&lon="+lng,
+			})
+			.done(function( data ) {
+				if ( console && console.log ) {
+					console.log( "Data:", data );
+				}
+			});
+
 			loadState(state);
 
 

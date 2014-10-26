@@ -22,7 +22,15 @@ h4 {
 }
 
 .iphone{
-	width: 50rem;
+	width: 17.2rem;
+  position: absolute;
+  margin-top: 6em;
+  margin-left: 3.2em;
+
+}
+
+.phoneframe {
+  position: absolute;
 }
 
 .container {
@@ -91,7 +99,7 @@ input#mce-EMAIL, input#mce-PHONE {
   		margin-right: 20px !important;
   	}
 
-  	.iphone {
+  	.iphone, .phoneframe {
   		display: none;
   	}
 

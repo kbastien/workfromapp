@@ -83,7 +83,7 @@ input#mce-EMAIL, input#mce-PHONE {
   		margin-left: 0 !important;
   	}
 
-  	.main {
+  	.main, .tagline{
   		margin-top: 0 !important;
   	}
 

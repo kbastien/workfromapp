@@ -8,10 +8,15 @@ body.ui-mobile-viewport, body.ui-overlay-a {
 	color: #fff;
 }
 
-#header, #footer { padding: 2px 10px; 	
+#header { 
+    padding: 10px 0 5px 10px;	
 	background-color: #F22613;
 	color: #fff;
 	width: 100%;
+}
+#footer { padding: 2px 10px;    
+    background-color: #F22613;
+    color: #fff;
 }
 #avatar img {
     width: 40px;
@@ -21,7 +26,7 @@ body.ui-mobile-viewport, body.ui-overlay-a {
     border-radius: 20px; 
 }
 #header a, #footer a{ color: #fff; }
-#footer { position: fixed; bottom: 0; }
+#footer { position: fixed; bottom: 0; height: 50px; right: 0; left: 0; }
 #header img { height:40px;}
 
 #placePhoto img { width: 100%; }
@@ -40,3 +45,57 @@ body.ui-mobile-viewport, body.ui-overlay-a {
 
 /* don't know about these */
 .ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper { text-shadow: none; }
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+.app-logo-wrap {
+    width: 50px;
+}
+.app-title-wrap {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 13px 0 0;
+    width: 210px;
+}
+.app-find-location-wrap {
+    width: 40px;
+}
+.app-footer-icon {
+    padding: 5px;
+}
+.app-footer-icon.home {
+    background: url('../assets/home-icon.png') 0 0 no-repeat;
+    background-size: 35px;
+    bottom: 7px;
+    display: block;
+    height: 35px;
+    left: 20px;
+    padding: 0;
+    position: absolute;
+    width: 35px;
+}
+.app-footer-icon.profile {
+    background: url('../assets/profile-icon.png') 0 0 no-repeat;
+    background-size: 25px 30px;
+    bottom: 7px;
+    display: block;
+    height: 35px;
+    left: 148px;
+    padding: 0;
+    position: absolute;
+    width: 35px;
+}
+.app-footer-icon.settings {
+    background: url('../assets/settings-icon.png') 0 50% no-repeat;
+    background-size: 35px;
+    bottom: 7px;
+    display: block;
+    height: 35px;
+    right: 20px;
+    padding: 0;
+    position: absolute;
+    width: 35px;
+}

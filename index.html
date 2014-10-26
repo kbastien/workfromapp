@@ -347,9 +347,17 @@
 </head>
 <body>
 	<div id="header">
-		<img src="//workfrom.co/downloads/Workfrom_icon_transparent.png" alt="w" />
-		<span id="title">Find Location</span>
-		<span id="avatar"><a href="#"><img src="assets/search-icon.png" alt="?" /></a></span>
+		<div class="clearfix">
+			<div class="left app-logo-wrap">
+				<img src="../assets/app-logo.png" alt="w" />
+			</div>
+			<div class="left app-title-wrap">
+				<span id="title">Find Location</span>
+			</div>
+			<div class="left app-find-location-wrap">	
+				<span id="avatar"><a href="#"><img src="assets/search-icon.png" alt="?" /></a></span>
+			</div>
+		</div>
 	</div>
 
 	<div id="init">
@@ -407,11 +415,9 @@
 	</div>
 
 	<div id="footer">
-			<a href="javascript:loadState('init')" class="">home</a>
-			|
-			<a href="javascript:loadState('profile')" class="">profile</a>
-			|
-			<a href="//workfrom.co">site</a>			
+			<a href="javascript:loadState('init')" class="app-footer-icon home"></a>
+			<a href="javascript:loadState('profile')" class="app-footer-icon profile"></a>
+			<a href="//workfrom.co" class="app-footer-icon settings"></a>			
 	</div>
 </body>
 </html>

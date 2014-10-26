@@ -22,15 +22,16 @@ h4 {
 }
 
 .iphone{
-	width: 17.2rem;
-  position: absolute;
-  margin-top: 6em;
-  margin-left: 3.2em;
+	width: 19.5rem;
+  	position: absolute;
+  	margin-top: 6.8em;
+  	margin-left: 3.6em;
 
 }
 
 .phoneframe {
   position: absolute;
+  width: 30rem;
 }
 
 .container {

@@ -148,7 +148,7 @@
 					console.log('state switch: place');
 					console.log('place_id: '+place_id);
 
-					var url = '//workfrom.co/assets/api/places.php?post_id='+place_id;
+					var url = 'https://workfrom.co/assets/api/places.php?post_id='+place_id;
 					console.log(url);
 					$.ajax( url )
 					.done(function(data) {
@@ -241,7 +241,7 @@
                 var lng = position.coords.longitude;
 
                 // load some nearby places (hopefully)
-				var url = '//workfrom.co/assets/api/places.php?lat='+lat+'&lon='+lng;
+				var url = 'https://workfrom.co/assets/api/places.php?lat='+lat+'&lon='+lng;
 				// console.log(url);
 				$.ajax( url )
 				.done(function(data) {
@@ -303,7 +303,7 @@
 					  var $form = $( this ),
 					    post_id = currentPlaceID,
 					    user_id = CURRENT_USER.ID,
-					    url = '//workfrom.co/assets/api/rewards.php';
+					    url = 'https://workfrom.co/assets/api/rewards.php';
 					 
 					  // Send the data using post
 					  var posting = $.post( url, { p: post_id, u: user_id } );
@@ -418,7 +418,7 @@
 	<div id="footer">
 			<a href="javascript:loadState('init')" class="app-footer-icon home"></a>
 			<a href="javascript:loadState('profile')" class="app-footer-icon profile"></a>
-			<a href="//workfrom.co/worker" class="app-footer-icon settings"></a>			
+			<a href="https://workfrom.co/worker" class="app-footer-icon settings"></a>			
 	</div>
 </body>
 </html>

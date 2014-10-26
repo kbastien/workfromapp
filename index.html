@@ -142,7 +142,7 @@
 					currentPlaceID = 0;
 					console.log('state switch: init');
 					$("#title").html("Find Location");
-					$("#avatar").replaceWith('<span id="avatar"><a href="#"><img src="assets/search-icon.png" alt="?" /></a></span>');
+					$("#avatar").replaceWith('<span id="avatar"><a href="javascript:loadState(\'profile\')"><img src="'+AVATAR+'" alt="profile" /></a></span>');
 					break;
 				case "place":
 					currentPlaceID = place_id;
@@ -176,7 +176,7 @@
 
 					// fetch this location's information ... 
 					// workfrom.co/assets/api/places.php?id='+place_id
-					$("#avatar").replaceWith('<span id="avatar"><a href="#"><img src="'+AVATAR+'" alt="?" /></a></span>');
+					$("#avatar").replaceWith('<span id="avatar"><a href="javascript:loadState(\'profile\')"><img src="'+AVATAR+'" alt="profile" /></a></span>');
 					break;
 				case "share":
 					// social tweet screen
@@ -419,7 +419,7 @@
 	<div id="footer">
 			<a href="javascript:loadState('init')" class="app-footer-icon home"></a>
 			<a href="javascript:loadState('profile')" class="app-footer-icon profile"></a>
-			<a href="//workfrom.co" class="app-footer-icon settings"></a>			
+			<a href="//workfrom.co/worker" class="app-footer-icon settings"></a>			
 	</div>
 </body>
 </html>

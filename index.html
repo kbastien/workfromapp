@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+
+	<!-- Workfrom
+	================================================== -->
+	<script>
+		// config this shit
+		var wf_kiipkey = "b08cad0c2345caae452e4dabc88ab33f";
+		var wf_threshold = 6;
+
+		/*
+		0. check to see if desktop or mobile.
+		0a. if mobile, continue
+		0b. if desktop, go to workfrom.co/rewards
+		*/
+		var uagent = navigator.userAgent.toLowerCase();
+		var is_mobile = false;
+	   	if (uagent.search("iphone") > -1) is_mobile = true;
+	   	if (uagent.search("android") > -1) is_mobile = true;
+
+	   	console.log(uagent);
+	   	// if( !is_mobile ) window.location = "./splash/";
+   	</script>
+	<script type="text/javascript" src="//workfrom.dev/assets/js/current-user.js.php"></script>
+	<script>
+		/*
+		var CURRENT_USER = {"data":null,"ID":0,"caps":[],"cap_key":null,"roles":[],"allcaps":[],"filter":null};
+		{"ID":"3","user_login":"jmlnarik","user_pass":"$P$B.wc9MZtNaiL5b5p\/NfgWQw9pO7qRi1","user_nicename":"jmlnarik","user_email":"jewel@workfrom.co","user_url":"http:\/\/jewel@mlnarik.com","user_registered":"2014-02-24 19:39:11","user_activation_key":"4e4DmfGqhkvMdcRD8aC36EN53B6fAu","user_status":"0","display_name":"Jewel Mlnarik"},"ID":3,"caps":{"administrator":true},"cap_key":"wp_capabilities","roles":["administrator"],"allcaps":{"switch_themes":true,"edit_themes":true,"activate_plugins":true,"edit_plugins":true,"edit_users":true,"edit_files":true,"manage_options":true,"moderate_comments":true,"manage_categories":true,"manage_links":true,"upload_files":true,"import":true,"unfiltered_html":true,"edit_posts":true,"edit_others_posts":true,"edit_published_posts":true,"publish_posts":true,"edit_pages":true,"read":true,"level_10":true,"level_9":true,"level_8":true,"level_7":true,"level_6":true,"level_5":true,"level_4":true,"level_3":true,"level_2":true,"level_1":true,"level_0":true,"edit_others_pages":true,"edit_published_pages":true,"publish_pages":true,"delete_pages":true,"delete_others_pages":true,"delete_published_pages":true,"delete_posts":true,"delete_others_posts":true,"delete_published_posts":true,"delete_private_posts":true,"edit_private_posts":true,"read_private_posts":true,"delete_private_pages":true,"edit_private_pages":true,"read_private_pages":true,"delete_users":true,"create_users":true,"unfiltered_upload":true,"edit_dashboard":true,"update_plugins":true,"delete_plugins":true,"install_plugins":true,"update_themes":true,"install_themes":true,"update_core":true,"list_users":true,"remove_users":true,"add_users":true,"promote_users":true,"edit_theme_options":true,"delete_themes":true,"export":true,"copy_posts":true,"wpseo_bulk_edit":true,"administrator":true},"filter":null};
+
+		var INITIALIZED = true;
+		1. check to see if someone is logged in. 
+		1a. if not - take them to the main site login page.
+		1b. if yes - take them to onlocation.html
+		*/
+		console.log(CURRENT_USER);
+		console.log(INITIALIZED);
+		if( typeof(INITIALIZED) == 'undefined' || CURRENT_USER.ID == 0 ){
+			console.log('redirect');
+			// window.location = "//rewards.workfrom.co";
+		}
+	</script>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>Workfrom Rewards</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+  ================================================== -->
+	<link rel="stylesheet" href="stylesheets/base.css">
+	<link rel="stylesheet" href="stylesheets/skeleton.css">
+	<link rel="stylesheet" href="stylesheets/layout.css">
+	<link rel="stylesheet" href="stylesheets/app.css">
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+	<!-- Kiip
+	================================================== -->
+	<script type="text/javascript" src="/apis/kiip.js"></script>
+
+	<script>
+		// What to do when we track a wf transaction
+		function recordWfShoutOut(locationID){
+			// Some time goes by, user clicks on a special button:
+			kiip.postMoment('wf_workfrom_shoutout');
+
+			// ajax POST to workfrom.co/api/rewards
+			return 5;
+		}
+
+		// Location owner enters the code
+		function recordWfTransaction(locationID,code){
+			// ajax GET to workfrom.co/api/rewards - locationID + code
+			var valid = true;
+			var count = 6;
+			// if true:
+			kiip.postMoment('wf_location_purchase');
+			// if count is greater than our threshold:
+			if( count > wf_threshold ) kiip.postMoment('wf_5buy');
+			return true;
+		}
+
+		// If unit exist, the user has won a reward, a unit will be
+		// provided as an argument. Unit is basically an object with
+		// two methods, show and destroy. You can call show when you are
+		// ready. If unit is undefined or falsy, then the user did not
+		// win a reward.
+		var callback = function(unit){
+		    if (unit) {
+		        // User won a reward, show it
+		        unit.show();
+		        console.log("unit should show");
+		    } else {
+		        // User did not win a reward... do something else
+		        console.log("no unit to show");
+		    }
+		};
+		var kiip = new Kiip(wf_kiipkey,callback); 
+		kiip.setTestMode(); // don't ship with this
+		/*
+			setEmail allows you to pass an email that can be used to auto populate any rewards a user has won. You only need to call this once, and we will continue to pass it along to every reward the user has won.
+		*/
+		kiip.setEmail(CURRENT_USER.user_email);
+
+		function loadState(state){
+			// make this right
+			$("#init").hide();
+			$("#place").hide();
+			$("#share").hide();
+			$("#claim").hide();
+			$("#thanks").hide();
+			$("#profile").hide();
+			console.log(state);
+			$("#"+state).show();
+		}
+
+		// Load the page & views
+		$(document).ready(function() {
+		    console.log("<script src=\"//workfrom.dev/assets/api/rewards.php?uid="+CURRENT_USER.ID+"\">");
+		    $('head').append("<script src=\"//workfrom.dev/assets/api/rewards.php?uid="+CURRENT_USER.ID+"\">");
+			/*
+				var nextRewardIn = 3;
+				var badgeCount = 55;
+				var lifetimeCount = 100;
+			*/
+
+			var state = 'init';
+			loadState(state);
+
+
+		});
+	</script>
+</head>
+<body>
+	<div id="header">header</div>
+
+	<div id="init" class="container">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom" style="margin-top: 40px">Reward Yourself</h1>
+			<h5>for working from the places you love</h5>
+			<hr />
+			a list here...while we look for your location
+			<a href="javascript:loadState('place')" class="">select a place</a>
+		</div>
+	</div>
+
+	<div id="place" class="container">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom" style="margin-top: 40px">PLACE</h1>
+			details here with link to "work from here"
+			or go back to list...
+			<a href="javascript:loadState('share')" class="">workfrom here</a>
+			<br>
+			<a href="javascript:loadState('init')" class="">list</a>			
+		</div>
+	</div>
+
+	<div id="share" class="container">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom" style="margin-top: 40px">SHARE</h1>
+
+			<a href="javascript:loadState('claim')" class="">claim</a>
+		</div>
+	</div>
+
+	<div id="claim" class="container">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom" style="margin-top: 40px">CLAIM</h1>
+
+			<a href="javascript:loadState('thanks')" class="">verify</a>
+		</div>
+	</div>
+
+	<div id="thanks" class="container">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom" style="margin-top: 40px">THANKS</h1>
+			reward screen ... and/or progress
+		</div>
+	</div>
+
+	<div id="profile" class="container">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom" style="margin-top: 40px">PROFILE</h1>
+			current progress
+		</div>
+	</div>
+
+	<div id="footer">
+			<a href="javascript:loadState('init')" class="">home</a>
+			|
+			<a href="javascript:loadState('profile')" class="">profile</a>
+			|
+			<a href="http://workfrom.dev">site</a>			
+	</div>
+</body>
+</html>

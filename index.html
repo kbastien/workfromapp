@@ -37,8 +37,7 @@
 		1b. if yes - take them to onlocation.html
 		*/
 		if( (typeof INITIALIZED == 'undefined') || (typeof CURRENT_USER == 'undefined') || CURRENT_USER.ID == 0 ){
-			console.log('redirect');
-			// window.location = "//workfrom.co/login"; // @todo make this a redirecting link
+			window.location = "//workfrom.co/login"; // @todo make this a redirecting link
 		}
 		console.log(CURRENT_USER);
 		console.log("total transactions: "+TOTAL_TRANSACTIONS);

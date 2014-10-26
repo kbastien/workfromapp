@@ -51,6 +51,9 @@ body.ui-mobile-viewport, body.ui-overlay-a {
 .right {
     float: right;
 }
+.loading-spin {
+    margin-top: 50%;
+}
 .app-logo-wrap {
     width: 50px;
 }

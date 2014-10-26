@@ -12,6 +12,14 @@ h4 {
 	line-height: 22px !important;
 }
 
+.center {
+  text-align: center;
+}
+
+.tiny-text {
+  font-size: 15px;
+}
+
 .main {
 	margin-top: 7rem;
 }
@@ -23,20 +31,19 @@ h4 {
 
 .iphone{
 	width: 19.5rem;
-  	position: absolute;
-  	margin-top: 6.8em;
-  	margin-left: 3.6em;
+  position: absolute;
+  top: 95px;
+  left: 96px;
+}
 
+}
+
+.phone-demo-wrap {
+  position: relative;
 }
 
 .phoneframe {
-  position: absolute;
   width: 30rem;
-}
-
-.container {
-	margin-right: 0 !important;
-	padding-right: 0 !important;
 }
 
 .content {
@@ -49,6 +56,19 @@ h4 {
 	border-radius: 3px;
 	height: 40px;
 	width: 170px;
+}
+
+.btn-punch {
+  color: #ffffff;
+  background-color: #F22613;
+  border-color: #F22613;
+}
+.btn-punch:hover,
+.btn-punch:active,
+.btn-punch:focus {
+  color: #ffffff!important;
+  background-color: #da1717;
+  border-color: #da1717;
 }
 
 .rewardssubmit {

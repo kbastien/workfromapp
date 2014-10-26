@@ -87,7 +87,7 @@ input#mce-EMAIL, input#mce-PHONE {
 	padding: 0 !important;
 }
 
-@media all and (max-width:1200px){
+@media all and (max-width:768px){
   	body {
   		margin-left: 0 !important;
   	}
@@ -98,10 +98,6 @@ input#mce-EMAIL, input#mce-PHONE {
 
   	.container {
   		margin-right: 20px !important;
-  	}
-
-  	.iphone, .phoneframe {
-  		display: none;
   	}
 
   	.tagline {

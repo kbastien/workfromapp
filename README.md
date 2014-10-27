@@ -1,7 +1,7 @@
-Workfrom (workfrom.co) Rewards
+[Workfrom](http://workfrom.co) Rewards
 ===========
 
-A submission we made for the PH Hackathon from October 25-26. Sign up at workfrom.co/rewards!
+A submission we made for the PH Hackathon from October 25-26. Sign up at [Workfrom Rewards!](http://workfrom.co/rewards)
 
 ##What is Workfrom Rewards?
 Workfrom Rewards enables mobile workers to earn rewards by making purchases at the places they work from around the world. It’s a punch card they can use at any participating location. Workfrom Rewards is a platform that empowers shop owners to effortlessly promote their spaces, incentivize purchases and increase their average revenue per customer. Workfrom Rewards is for the consumer and the business owner, creates a meaningful connection between the two — in addition to letting patrons track where they’ve worked from, their rewards status and earn badges and bragging rights along the way.

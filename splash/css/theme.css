@@ -30,12 +30,11 @@ h4 {
 }
 
 .iphone{
-	width: 19.5rem;
+	width: 172px;
   position: absolute;
-  top: 95px;
-  left: 96px;
-}
-
+  top: 84px;
+  left: 50%;
+  margin-left: -87px;
 }
 
 .phone-demo-wrap {
@@ -43,7 +42,7 @@ h4 {
 }
 
 .phoneframe {
-  width: 30rem;
+  /*width: 300px;*/
 }
 
 .content {
@@ -114,10 +113,6 @@ input#mce-EMAIL, input#mce-PHONE {
 
   	.main, .tagline{
   		margin-top: 0 !important;
-  	}
-
-  	.container {
-  		margin-right: 20px !important;
   	}
 
   	.tagline {

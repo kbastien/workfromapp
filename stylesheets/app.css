@@ -8,6 +8,8 @@ body.ui-mobile-viewport, body.ui-overlay-a {
 	color: #fff;
 }
 
+.bodyContent{ padding-bottom: 80px; }
+
 #header { 
     padding: 10px 0 5px 10px;	
 	background-color: #F22613;

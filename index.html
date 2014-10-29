@@ -7,6 +7,7 @@
 
 	<!-- Workfrom
 	================================================== -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<script>
 		// config this shit
 		var wf_kiipkey = "b08cad0c2345caae452e4dabc88ab33f";
@@ -23,7 +24,7 @@
 	   	if (uagent.search("android") > -1) is_mobile = true;
 
 	   	console.log(uagent);
-	   	if( !is_mobile ) window.location = "./splash/?msg=mobileonly";
+	   	// if( !is_mobile ) window.location = "./splash/?msg=mobileonly";
    	</script>
 	<script type="text/javascript" src="//workfrom.co/assets/js/current-user.js.php"></script>
 	<script>
@@ -363,25 +364,25 @@
 		</div>
 	</div>
 
-	<div id="init">
+	<div id="init" class="bodyContent">
 			<div id="spinner" class="loading-spin"><img src="../assets/rotating-logo-icon.gif" alt="w" /></div>
 			<ul id="placesList"></ul>
 	</div>
 
-	<div id="place">
+	<div id="place" class="bodyContent">
 			<div id="placePhoto"></div>
 			<div id="proTip"></div>
 			<div id="password"></div>
 			<input type="button" onClick="loadState('share')" class="button" value="Workfrom here" />
 	</div>
 
-	<div id="share">
+	<div id="share" class="bodyContent">
 			<div id="shareTweet"></div>
 
 			<a href="javascript:loadState('claim')" class="">SHARE</a>
 	</div>
 
-	<div id="claim">
+	<div id="claim" class="bodyContent">
 		<form id="verifyForm">
 			<h1 class="remove-bottom">GET THE CODE</h1>
 			<p>Show the cashier your phone to earn points during your next purchase.</p>
@@ -390,21 +391,21 @@
 		</form>		
 	</div>
 
-	<div id="thanks">
+	<div id="thanks" class="bodyContent">
 			<h1 class="remove-bottom">Today is a good day!</h1>
 			<h2>You can't be stopped!</h2>
 			<div class="circle"><img src="assets/fistbump-img.png"></div>
 			<p>So close! Only <span id="counterLeft">3</span> more left and you get a reward!</p>
 	</div>
 
-	<div id="reward">
+	<div id="reward" class="bodyContent">
 			<h1 class="remove-bottom">You've earned a reward!</h1>
 			<h2>You've made <span id="counterTotal"></span> purchases at Workfrom locations.</h2>
 			<div class="circle"><img src="assets/fistbump-img.png"></div>
 			<input id="redeemBtn" type="button" class="button">Redeem Reward</a>
 	</div>
 
-	<div id="profile">
+	<div id="profile" class="bodyContent">
 			<h1>Reward Meter</h1>
 			<div class="meter">
 				<span id="totalOf"></span>

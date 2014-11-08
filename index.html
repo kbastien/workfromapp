@@ -12,6 +12,9 @@
 		// config this shit
 		var wf_kiipkey = "b08cad0c2345caae452e4dabc88ab33f";
 		var wf_threshold = 6;
+		var wf_places_api = 'http://workfrom.co/api/places/';
+		var wf_places_api = 'https://workfrom.dev/api/places/';
+		console.log('places api: '+wf_places_api);
 
 		/*
 		0. check to see if desktop or mobile.
@@ -152,33 +155,30 @@
 					console.log('state switch: place');
 					console.log('place_id: '+place_id);
 
-					var url = 'https://workfrom.co/assets/api/places.php?post_id='+place_id;
-					console.log(url);
-					$.ajax( url )
+					var apiurl = wf_places_api+place_id;
+					console.log("places api url 159: "+apiurl);
+					$.ajax( 
+						{url:apiurl,
+						dataType: 'json'} )
 					.done(function(data) {
 						console.log( "success" );
-						console.log(data);
-					})
-					.fail(function(data) {
-						// not sure why it's failing as we're getting a response, so this is quick hack					
-						// console.log( "error" );
-						myContent = $.parseJSON(data.responseText)
+						myContent = data.response[0];
 						currentVerificationCode = myContent.verificationCode = '1234'; // for demo only
 						console.log(myContent);
 						$("#title").html(myContent.title);
-						$("#proTip").replaceWith('<div id="proTip">'+myContent.protip+'</div>');
+						$("#proTip").replaceWith('<div id="proTip">'+myContent.description+'</div>');
 						$("#password").replaceWith('<div id="password">'+myContent.password+'</div>');
-						$("#placePhoto").replaceWith('<div id="placePhoto"><img src="'+myContent.image+'"></div>');
+						$("#placePhoto").replaceWith('<div id="placePhoto"><img src="'+myContent.thumbnail_img+'"></div>');
 						var shareTweet = 'I\'ve landed at '+myContent.title;
 						shareTweet += ' to get some work done. Join me if you dare. wkfr.co/'+myContent.slug;
 						shareTweet += 'cc @workfromco';
 						$("#shareTweet").replaceWith('<div id="shareTweet">'+shareTweet+'</div>');
-						// check verification
-		
+					})
+					.fail(function(data) {
+						console.log( "oops" );
 					});
 
 					// fetch this location's information ... 
-					// workfrom.co/assets/api/places.php?id='+place_id
 					$("#avatar").replaceWith('<span id="avatar"><a href="javascript:loadState(\'profile\')"><img src="'+AVATAR+'" alt="profile" /></a></span>');
 					break;
 				case "share":
@@ -203,8 +203,6 @@
 
 		// Load the page & views
 		$(document).ready(function() {
-		    // $('head').append("<script src=\"//workfrom.co/assets/api/rewards.php?uid="+CURRENT_USER.ID+"\">");
-
 			var state = 'init';
 			/*
 				find places near you
@@ -245,27 +243,26 @@
                 var lng = position.coords.longitude;
 
                 // load some nearby places (hopefully)
-				var url = 'https://workfrom.co/assets/api/places.php?lat='+lat+'&lon='+lng;
-				// console.log(url);
-				$.ajax( url )
+				var apiurl = wf_places_api+'ll/'+lat+','+lng;
+				console.log("places api url 252: "+apiurl);
+				$.ajax(
+					{url:apiurl,
+					dataType: 'json'} )
 				.done(function(data) {
-					// console.log( "success" );
-					// console.log(data);
-					var listings = $.parseJSON(data);
-					$("#spinner").replaceWith('<div id="spinner"></div>');
-					$.each(listings, function (index,value){
-						var string = "<li><a href=\"javascript:loadState('place',"+value.ID+")\">"+value.post_title+"</a></li>";
-						// console.log(string);
-						$("ul#placesList").append(string);
-						// $("#placesList").append("<p><a href=\"#"+value.ID+"\#>"+value.post_title+"</p>");
-					});
-
+					if( data.meta.code == 200 ){
+						var listings = data.response;
+						$("#spinner").replaceWith('<div id="spinner"></div>');
+						$.each(listings, function (index,value){
+							var string = "<li><a href=\"javascript:loadState('place',"+value.ID+")\">"+value.post_title+"</a></li>";
+							// console.log(string);
+							$("ul#placesList").append(string);
+							// $("#placesList").append("<p><a href=\"#"+value.ID+"\#>"+value.post_title+"</p>");
+						});
+					}
+					// else, handle error...
 				})
 				.fail(function() {
-					// console.log( "error" );
-				})
-				.always(function() {
-				// console.log( "complete" );
+					console.log( "error" );
 				});
             }
             if(navigator.geolocation)
